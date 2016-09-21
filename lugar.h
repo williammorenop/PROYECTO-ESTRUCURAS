@@ -22,10 +22,11 @@ public:
   int getTipo();
   double toRadian(double grados);
   double calularDistanciaKm(double latm,double lonm);
-  /*void setnombre(string const aux);
-  void settipo(int const aux);
-  void setlat(double const aux);
-  void setlon(double const aux);*/
+
+  void setNombre(std::string const aux);
+  void setTipo(int const aux);
+  void setLat(double const aux);
+  void setLon(double const aux);
 
 
   double getLat();

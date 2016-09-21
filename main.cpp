@@ -12,10 +12,18 @@ string cargarArchivo(list<lugar *> &lugars,string nombrearch);
 void imprimirLista(list<lugar *> lugars);
 string imprimirlinea(int numchar, int longitud);
 string imprimirMenu();
+string imprimirGracias();
 void cantidadSitios(list<lugar *> lugars,string tipo);
 int cantidadTotal(list<lugar *> lugars);
 
 void obtenerSitio(list<lugar *> lugars,double x,double y);
+
+void crearSitio(list<lugar *> &lugars,string nombretemp,int tipotemp,double lattemp,double lontemp);
+
+void modificarSitio(list<lugar *> &lugars,string newname,int newtipo,double lat,double lon,double newlat,double newlon);
+list<lugar *>::iterator obtenerSitio2(list<lugar *> &lugars,double x,double y);
+
+void eliminarSitio(list<lugar *> &lugars,double lat,double lon);
 int main()
 {
     int opcion;
@@ -74,17 +82,30 @@ int main()
         }
         case 4:
         {
-            cout<<"PROXIMAMENTE..."<<endl;
+            string nombretemp;
+            int tipotemp;
+            double lattemp,lontemp;
+            cout<<"Ingrese el nombre, tipo, lat y lon del sitio: (Example:Plaza 2 35.3 45.6)"<<endl;
+            cin>>nombretemp>>tipotemp>>lattemp>>lontemp;
+            crearSitio(lugares,nombretemp,tipotemp,lattemp,lontemp);
             break;
         }
         case 5:
         {
-            cout<<"PROXIMAMENTE..."<<endl;
+            string nuevonombre;
+            int nuevotipo;
+            double lon, lat, nuevalat,nuevalon;
+            cout<<"Ingrese lat, lon, nuevo nombre, nuevo tipo, nueva lat, nueva lon seguido de ENTER:"<<endl;
+            cin>>lat>>lon>>nuevonombre>>nuevotipo>>nuevalat>>nuevalon;
+            modificarSitio(lugares,nuevonombre,nuevotipo,lat,lon,nuevalat,nuevalon);
             break;
         }
         case 6:
         {
-            cout<<"PROXIMAMENTE..."<<endl;
+            cout<<"Ingrese lat y lon: ";
+            int latelim, longelim;
+            cin>>latelim>>longelim;
+            eliminarSitio( lugares,latelim,longelim);
             break;
         }
         default:
@@ -98,30 +119,79 @@ int main()
         cin>>opcion;
     }
 
+    cout<<imprimirGracias();
 
 
     return (0);
 }
+void eliminarSitio(list<lugar *> &lugars,double lat,double lon)
+{
+    if(!lugars.empty())
+    {
+        list<lugar *>::iterator eliminado=obtenerSitio2(lugars,lat,lon);
+        cout<<"El sitio "<<(*eliminado)->getNombre()<<" en las coordenadas ("<<(*eliminado)->getLat()<<","<<(*eliminado)->getLon()<<") ha sido eliminado."<<endl;
+        lugars.erase(eliminado);
+    }
+    else
+    {
+        cout<<"No se han ingresado lugares."<<endl;
+    }
+
+
+
+}
+
+void modificarSitio(list<lugar *> &lugars,string newname,int newtipo,double lat,double lon,double newlat,double newlon)
+{
+    if(!lugars.empty())
+    {
+        list<lugar*>::iterator elmodificado =obtenerSitio2(lugars,lat,lon);
+        cout<< "La informacion del Sitio "<< (*elmodificado)->getNombre();
+        (*elmodificado)->setNombre(newname);
+        (*elmodificado)->setTipo(newtipo);
+        (*elmodificado)->setLat(newlat);
+        (*elmodificado)->setLon(newlon);
+
+        cout<<" se ha actualizado a: "<<newname<<" de tipo "<<newtipo<<", con coordenadas ("<<newlat<<","<<newlon<<")."<<endl ;
+    }
+    else
+    {
+        cout<<"No se han ingresado lugares."<<endl;
+    }
+}
+
+string imprimirGracias()
+{
+    string gracias="";
+    char esi = 201, esd = 187, eii = 200, eid = 188, lv = 186, lh = 205, id = 185,ii = 204;
+    gracias=gracias
+            +"\n "+ esi + imprimirlinea(205, 38) + esd + "\n"
+            +" "+ lv + "\t\t\t\t\t" + lv + "\n"
+            +" "+ lv + "      GRACIAS POR PREFERIRNOS.       \t" + lv + "\n"
+            +" "+ lv + "\t\t\t\t\t" + lv + "\n"
+            +" "+ eii + imprimirlinea(205, 38) + eid + "\n";
+    return gracias;
+}
+
+void crearSitio(list<lugar *> &lugars,string nombretemp,int tipotemp,double lattemp,double lontemp)
+{
+    lugars.push_back(new lugar(nombretemp,tipotemp,lattemp,lontemp));
+    cout<<"El sitio de tipo "<<tipotemp<<" en ("<<lattemp<<","<<lontemp<<") ha sido creado."<<endl;
+
+}
+
 void obtenerSitio(list<lugar *> lugars,double x,double y)
 {
-    double distancia;
-    string nombre;
-    int tipo;
-    double lat;
-    double lon;
-    for (list<lugar *>::iterator it = lugars.begin(); it != lugars.end(); it++)
+    if(!lugars.empty())
     {
-        if(it==lugars.begin())
+        double distancia;
+        string nombre;
+        int tipo;
+        double lat;
+        double lon;
+        for (list<lugar *>::iterator it = lugars.begin(); it != lugars.end(); it++)
         {
-            distancia=(*it)->calularDistanciaKm(x,y);
-            nombre=(*it)->getNombre();
-            tipo=(*it)->getTipo();
-            lat=(*it)->getLat();
-            lon=(*it)->getLon();
-        }
-        else
-        {
-            if((*it)->calularDistanciaKm(x,y)<distancia)
+            if(it==lugars.begin())
             {
                 distancia=(*it)->calularDistanciaKm(x,y);
                 nombre=(*it)->getNombre();
@@ -129,9 +199,51 @@ void obtenerSitio(list<lugar *> lugars,double x,double y)
                 lat=(*it)->getLat();
                 lon=(*it)->getLon();
             }
+            else
+            {
+                if((*it)->calularDistanciaKm(x,y)<distancia)
+                {
+                    distancia=(*it)->calularDistanciaKm(x,y);
+                    nombre=(*it)->getNombre();
+                    tipo=(*it)->getTipo();
+                    lat=(*it)->getLat();
+                    lon=(*it)->getLon();
+                }
+            }
+        }
+        cout<<"El sitio turistico mas cercano se encuentra a "<<distancia<<" metros. Su nombre es "<<nombre<<", es de tipo "<<tipo<<" y se ubica en ("<<lat<<","<<lon<<").\n";
+
+    }
+    else
+    {
+        cout<<"No se han ingresado lugares."<<endl;
+    }
+}
+
+list<lugar *>::iterator obtenerSitio2(list<lugar *> &lugars,double x,double y)
+{
+    double distancia;
+    string nombre;
+    int tipo;
+    double lat;
+    double lon;
+    list<lugar *>::iterator aux;
+    for (list<lugar *>::iterator it = lugars.begin(); it != lugars.end(); it++)
+    {
+        if(it==lugars.begin())
+        {
+            distancia=(*it)->calularDistanciaKm(x,y);
+            aux=it;
+        }
+        else
+        {
+            if((*it)->calularDistanciaKm(x,y)<distancia)
+            {
+                aux=it;
+            }
         }
     }
-    cout<<"El sitio turistico mas cercano se encuentra a "<<distancia<<" metros. Su nombre es "<<nombre<<", es de tipo "<<tipo<<" y se ubica en ("<<lat<<","<<lon<<").\n";
+    return aux;
 }
 
 void cantidadSitios(list<lugar *> lugars,string tipo)
@@ -275,7 +387,7 @@ string cargarArchivo(list<lugar *> &lugars,string nombrearch)
         return "FALLO. El archivo no existe.\n";
     }
     archivo.close();
-
+    delete[] y;
     return "EXITO!\n";
 }
 

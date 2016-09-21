@@ -52,3 +52,20 @@ double lugar::calularDistanciaKm(double latm,double lonm)
     double distanciaM=distanciaKm*1000;
     return distanciaM;
 }
+
+void lugar::setNombre(std::string const aux)
+{
+    this->nombre=aux;
+}
+void lugar::setTipo(int const aux)
+{
+    this->tipo=aux;
+}
+void lugar::setLat(double const aux)
+{
+    this->lat=aux;
+}
+void lugar::setLon(double const aux)
+{
+    this->lon=aux;
+}
