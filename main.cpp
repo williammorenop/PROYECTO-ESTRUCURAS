@@ -8,23 +8,128 @@
 
 using namespace std;
 
-string cargarArchivo(list<lugar *> &lugars); // mientras testeamos no recibe
-                                             // argumentos en un futuro recibe
-                                             // el nombre del archivo
+string cargarArchivo(list<lugar *> &lugars,string nombrearch);
 void imprimirLista(list<lugar *> lugars);
+string imprimirlinea(int numchar, int longitud);
+string imprimirMenu();
 int main() {
-
+  int opcion;
   // lugar* a = new lugar("sda", 2, 2.2, 3.2);
+  //////////////////////////////////////////////
+  /*char u;
+  for (int a = 0; a < 300; a++) {
+    u = a;
+    cout << a << " -> " << u << endl;
+  }*/
+  /////////////////////////////////////////////
 
-  list<lugar *> lugares;
-  cout << cargarArchivo(lugares);
-  system("PAUSE");
-  imprimirLista(lugares);
+      cout<<imprimirMenu()<<"\nOpcion:  ";
+      cin>>opcion;
+
+      list<lugar *> lugares;
+
+      //system("PAUSE");
+      //imprimirLista(lugares);
+      while (opcion!=7)
+      {
+        switch (opcion) {
+          case 1:
+          {
+            string nombrearchivo;
+            cout<<"Ingrese el nombre del archivo: ";
+            cin>>nombrearchivo;
+            cout<<cargarArchivo(lugares,nombrearchivo);
+            break;
+          }
+          case 2:
+          {
+            cout<<"PROXIMAMENTE..."<<endl;
+            break;
+          }
+          case 3:
+          {
+            cout<<"PROXIMAMENTE..."<<endl;
+            break;
+          }
+          case 4:
+          {
+            cout<<"PROXIMAMENTE..."<<endl;
+            break;
+          }
+          case 5:
+          {
+            cout<<"PROXIMAMENTE..."<<endl;
+            break;
+          }
+          case 6:
+          {
+            cout<<"PROXIMAMENTE..."<<endl;
+            break;
+          }
+          default:
+          {
+            cout<<(char)173<<"Opcion incorrecta!."<<endl;
+          }
+        }
+        system("PAUSE");
+        system("cls");
+        cout<<imprimirMenu()<<"\nOpcion:  ";
+        cin>>opcion;
+      }
+
+
 
   return (0);
 }
-string cargarArchivo(list<lugar *> &lugars) {
-  ifstream archivo("sample1.in");
+string imprimirMenu()
+{
+  string menu="";
+  char esi = 201, esd = 187, eii = 200, eid = 188, lv = 186, lh = 205, id = 185,ii = 204;
+  menu=menu
+       +" "+ esi + imprimirlinea(205, 38) + esd + "\n"
+       +" "+ lv + "\t\t\t\t\t" + lv + "\n"
+       +" "+ lv + "\t           MENU       \t\t" + lv + "\n"
+       +" "+ lv + "\t\t\t\t\t" + lv + "\n"
+       +" "+ ii + imprimirlinea(205, 38) + id + "\n"
+       +" "+ lv + "  Opcion 1: Cargar. \t\t\t" + lv + "\n"
+       +" "+ lv + "  Opcion 2: Cantidad de Sitios. \t" + lv + "\n"
+       +" "+ lv + "  Opcion 3: Obtener Sitio. \t\t" + lv + "\n"
+       +" "+ lv + "  Opcion 4: Crear Sitio. \t\t" + lv + "\n"
+       +" "+ lv + "  Opcion 5: Modificar Sitio. \t\t" + lv + "\n"
+       +" "+ lv + "  Opcion 6: Eliminar Sitio. \t\t" + lv + "\n"
+       +" "+ lv + "  Opcion 7: Salir. \t\t\t" + lv + "\n"
+       +" "+ eii + imprimirlinea(205, 38) + eid + "\n";
+  return menu;
+  /*char esi = 201, esd = 187, eii = 200, eid = 188, lv = 186, lh = 205, id = 185,ii = 204;
+  cout <<" "<< esi << imprimirlinea(205, 38) << esd << endl
+       <<" "<< lv << "\t\t\t\t\t" << lv << endl
+       <<" "<< lv << "\t           MENU       \t\t" << lv << endl
+       <<" "<< lv << "\t\t\t\t\t" << lv << endl
+       <<" "<< ii << imprimirlinea(205, 38) << id << endl
+       <<" "<< lv << "  Opcion 1: Cargar. \t\t\t" << lv << endl
+       <<" "<< lv << "  Opcion 2: Cantidad de Sitios. \t" << lv << endl
+       <<" "<< lv << "  Opcion 3: Obtener Sitio. \t\t" << lv << endl
+       <<" "<< lv << "  Opcion 4: Crear Sitio. \t\t" << lv << endl
+       <<" "<< lv << "  Opcion 5: Modificar Sitio. \t\t" << lv << endl
+       <<" "<< lv << "  Opcion 6: Eliminar Sitio. \t\t" << lv << endl
+       <<" "<< eii << imprimirlinea(205, 38) << eid << endl;*/
+}
+string imprimirlinea(int numchar, int longitud) {
+  char m = numchar;
+  string linea = "";
+  for (int w = 0; w < longitud; w++) {
+    linea += m;
+  }
+  return linea;
+}
+string cargarArchivo(list<lugar *> &lugars,string nombrearch) {
+
+   string x = nombrearch;
+    char *y = new char[x.length() + 1];
+    strcpy(y, x.c_str());
+    cout<<y;
+  ifstream archivo(strcat(y));
+    delete[] y;
   char linea[100];
   if (archivo) {
     char *token;
@@ -80,6 +185,11 @@ string cargarArchivo(list<lugar *> &lugars) {
        cout << "cadena aux: " << lonl << endl;*/
       lugars.push_back(new lugar(nombrel, tipol, latl, lonl));
     }
+  }
+  else
+  {
+    archivo.close();
+    return "FALLO. El archivo no existe.\n";
   }
   archivo.close();
 
