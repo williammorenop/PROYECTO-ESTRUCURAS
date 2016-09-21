@@ -15,6 +15,7 @@ string imprimirMenu();
 void cantidadSitios(list<lugar *> lugars,string tipo);
 int cantidadTotal(list<lugar *> lugars);
 
+void obtenerSitio(list<lugar *> lugars,double x,double y);
 int main()
 {
     int opcion;
@@ -64,7 +65,11 @@ int main()
         }
         case 3:
         {
-            cout<<"PROXIMAMENTE..."<<endl;
+            double x,y;
+            cout<<"Ingrese lat seguido de la lon: ";
+            cin>>x>>y;
+            //cout<<x<<" "<<y;
+            obtenerSitio(lugares, x, y);
             break;
         }
         case 4:
@@ -96,6 +101,37 @@ int main()
 
 
     return (0);
+}
+void obtenerSitio(list<lugar *> lugars,double x,double y)
+{
+    double distancia;
+    string nombre;
+    int tipo;
+    double lat;
+    double lon;
+    for (list<lugar *>::iterator it = lugars.begin(); it != lugars.end(); it++)
+    {
+        if(it==lugars.begin())
+        {
+            distancia=(*it)->calularDistanciaKm(x,y);
+            nombre=(*it)->getNombre();
+            tipo=(*it)->getTipo();
+            lat=(*it)->getLat();
+            lon=(*it)->getLon();
+        }
+        else
+        {
+            if((*it)->calularDistanciaKm(x,y)<distancia)
+            {
+                distancia=(*it)->calularDistanciaKm(x,y);
+                nombre=(*it)->getNombre();
+                tipo=(*it)->getTipo();
+                lat=(*it)->getLat();
+                lon=(*it)->getLon();
+            }
+        }
+    }
+    cout<<"El sitio turistico mas cercano se encuentra a "<<distancia<<" metros. Su nombre es "<<nombre<<", es de tipo "<<tipo<<" y se ubica en ("<<lat<<","<<lon<<").\n";
 }
 
 void cantidadSitios(list<lugar *> lugars,string tipo)
