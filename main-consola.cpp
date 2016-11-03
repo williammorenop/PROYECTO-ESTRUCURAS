@@ -28,7 +28,12 @@ void menuAyuda(string com);
 void eliminarSitio(list<lugar *> &lugars,double lat,double lon);
 int main()
 {
-
+  double x , y , xx , yy ;
+  while( scanf("%lf %lf %lf %lf",&x,&y,&xx,&yy )!=EOF )
+  {
+    lugar nn("n",1,xx,yy);
+    cout << nn.calcularDistanciaKm( x , y ) << endl;
+  }
     //
     // char* opcion= new char [100];
     // // lugar* a = new lugar("sda", 2, 2.2, 3.2);
@@ -154,7 +159,7 @@ int main()
         else
           cantidadSitios( lugares , tipo );
       }
-      else if( comando == "obtenerSitioxy" )
+      else if( comando == "obtenerSitio" )
       {
         double x,y;
         ss >> x >> y;
@@ -169,14 +174,15 @@ int main()
         ss >> nombre >> tipo >> lat >> lon;
         crearSitio( lugares , nombre , tipo , lat , lon );
       }
-      else if( comando == "modificarSitioxy" )
+      else if( comando == "modificarSitio" )
       {
         double lon,lat,newlon,newlat;
         string nombre;
         int tipo;
         ss >> lon >> lat >> nombre >> tipo >> newlat >> newlon;
+        modificarSitio( lugares , nombre,  tipo , lat , lon , newlat, newlon );
       }
-      else if( comando == "eliminarSitioxy" )
+      else if( comando == "eliminarSitio" )
       {
         int lat , lon ;
         ss >> lat >> lon ;
@@ -187,6 +193,10 @@ int main()
         string com;
         ss >> com;
         menuAyuda( com );
+      }
+      else
+      {
+        cout << "Comando erroeno \n";
       }
       getline( cin , opcion );
     }
@@ -336,7 +346,7 @@ void obtenerSitio(list<lugar *> lugars,double x,double y)
         {
             if(it==lugars.begin())
             {
-                distancia=(*it)->calularDistanciaKm(x,y);
+                distancia=(*it)->calcularDistanciaKm(x,y);
                 nombre=(*it)->getNombre();
                 tipo=(*it)->getTipo();
                 lat=(*it)->getLat();
@@ -344,9 +354,9 @@ void obtenerSitio(list<lugar *> lugars,double x,double y)
             }
             else
             {
-                if((*it)->calularDistanciaKm(x,y)<distancia)
+                if((*it)->calcularDistanciaKm(x,y)<distancia)
                 {
-                    distancia=(*it)->calularDistanciaKm(x,y);
+                    distancia=(*it)->calcularDistanciaKm(x,y);
                     nombre=(*it)->getNombre();
                     tipo=(*it)->getTipo();
                     lat=(*it)->getLat();
@@ -375,12 +385,12 @@ list<lugar *>::iterator obtenerSitio2(list<lugar *> &lugars,double x,double y)
     {
         if(it==lugars.begin())
         {
-            distancia=(*it)->calularDistanciaKm(x,y);
+            distancia=(*it)->calcularDistanciaKm(x,y);
             aux=it;
         }
         else
         {
-            if((*it)->calularDistanciaKm(x,y)<distancia)
+            if((*it)->calcularDistanciaKm(x,y)<distancia)
             {
                 aux=it;
             }

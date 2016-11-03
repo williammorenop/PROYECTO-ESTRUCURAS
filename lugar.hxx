@@ -1,3 +1,5 @@
+#ifndef LUGARHXX
+#define LUGARHXX
 #include "lugar.h"
 #include <cmath>
 
@@ -42,7 +44,7 @@ double lugar::getLon()
     return this->lon;
 }
 
-double lugar::calularDistanciaKm(double latm,double lonm)
+double lugar::calcularDistanciaKm(double latm,double lonm)
 {
     double diflat=toRadian(this->lat - latm);
     double diflon=toRadian(this->lon - lonm);
@@ -69,3 +71,4 @@ void lugar::setLon(double const aux)
 {
     this->lon=aux;
 }
+#endif
