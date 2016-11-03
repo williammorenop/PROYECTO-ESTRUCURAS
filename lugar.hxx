@@ -2,6 +2,7 @@
 #define LUGARHXX
 #include "lugar.h"
 #include <cmath>
+#include <cstdio>
 #define PI 3.1416
 
 
@@ -50,7 +51,8 @@ double lugar::calcularDistanciaM(double latm,double lonm)
             *( sin(diflon/2)*sin(diflon/2) );
     double c = 2 * atan2( sqrt( a ) , sqrt( 1-a ) );
     double distanciaM=6371e3*c;
-    printf("diflat %lf diflon %lf a %lf c %lf\n",diflat , diflon , a , c );
+    // std::cout << "hola" << std::endl;
+    // printf("diflat %lf diflon %lf a %lf c %lf\n",diflat , diflon , a , c );
     // double distanciaM=distanciaKm*1000;
     return distanciaM;
 }
