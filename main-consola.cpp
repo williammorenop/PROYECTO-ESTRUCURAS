@@ -4,7 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <list>
-#include <stdlib.h>
+#include <cstdlib>
+#include <sstream>
 
 using namespace std;
 
@@ -22,142 +23,196 @@ void crearSitio(list<lugar *> &lugars,string nombretemp,int tipotemp,double latt
 
 void modificarSitio(list<lugar *> &lugars,string newname,int newtipo,double lat,double lon,double newlat,double newlon);
 list<lugar *>::iterator obtenerSitio2(list<lugar *> &lugars,double x,double y);
-void menuAyuda(char* com);
+void menuAyuda(string com);
 
 void eliminarSitio(list<lugar *> &lugars,double lat,double lon);
 int main()
 {
-    char* opcion= new char [100];
-    // lugar* a = new lugar("sda", 2, 2.2, 3.2);
-    //////////////////////////////////////////////
-    /*char u;
-    for (int a = 0; a < 300; a++) {
-      u = a;
-      cout << a << " -> " << u << endl;
-    }*/
-    /////////////////////////////////////////////
-    char* token;
-    //cout<<imprimirMenu()<<"\nComando:  ";
 
-    cin.getline(opcion,100);
-
-
-    //cout<<opcion;
-
-    list<lugar *> lugares;
-
-    //system("PAUSE");
-    //imprimirLista(lugares);
-    while (strcmp(opcion,"fin")!=0)
+    //
+    // char* opcion= new char [100];
+    // // lugar* a = new lugar("sda", 2, 2.2, 3.2);
+    // //////////////////////////////////////////////
+    // /*char u;
+    // for (int a = 0; a < 300; a++) {
+    //   u = a;
+    //   cout << a << " -> " << u << endl;
+    // }*/
+    // /////////////////////////////////////////////
+    // char* token;
+    // //cout<<imprimirMenu()<<"\nComando:  ";
+    //
+    // cin.getline(opcion,100);
+    //
+    //
+    // //cout<<opcion;
+    //
+    //
+    // //system("PAUSE");
+    // //imprimirLista(lugares);
+    // while (strcmp(opcion,"fin")!=0)
+    // {
+    //     token= strtok(opcion," ");
+    //     cout<<token;
+    //     if(strcmp(token,"cargar")==0)
+    //     {
+    //         token=strtok(NULL," ");
+    //
+    //         cout<<cargarArchivo(lugares,token);
+    //         //imprimirLista(lugares);
+    //
+    //     }
+    //     if(strcmp(token,"cantSitios")==0)
+    //     {
+    //         token=strtok(NULL," ");
+    //         if(strcmp(token,"T")==0||strcmp(token,"t")==0)
+    //         {
+    //             cout<<"Cantidad Sitios: "<<cantidadTotal(lugares)<<endl;
+    //         }
+    //         else
+    //         {
+    //             cantidadSitios(lugares,token);
+    //         }
+    //
+    //
+    //     }
+    //     if(strcmp(token,"obtenerSitioxy")==0)
+    //     {
+    //         double x,y;
+    //         token=strtok(NULL," ");
+    //         x=atof(token);
+    //         token=strtok(NULL," ");
+    //         y=atof(token);
+    //         //cout<<x<<" "<<y;
+    //         obtenerSitio(lugares, x, y);
+    //
+    //     }
+    //     if(strcmp(token,"crearStitio")==0)
+    //     {
+    //         string nombretemp (strtok(NULL, " "));
+    //         int tipotemp= atoi(strtok(NULL," "));
+    //         double lattemp = atof(strtok(NULL," ")) ;
+    //         double lontemp= atof(strtok(NULL," ")) ;
+    //         crearSitio(lugares,nombretemp,tipotemp,lattemp,lontemp);
+    //
+    //     }
+    //     if(strcmp(token,"modificarSitioxy")==0)
+    //     {
+    //         double lon = atof(strtok(NULL," "));
+    //         double lat = atof(strtok(NULL," "));
+    //         string nuevonombre (strtok(NULL," "));
+    //         int nuevotipo = atoi(strtok(NULL," "));
+    //         double nuevalat = atof(strtok(NULL," "));
+    //         double nuevalon = atof(strtok(NULL," "));
+    //         modificarSitio(lugares,nuevonombre,nuevotipo,lat,lon,nuevalat,nuevalon);
+    //
+    //     }
+    //    if(strcmp(token,"eliminarSitioxy")==0)
+    //     {
+    //         int latelim = atoi(strtok(NULL," "));
+    //         int longelim = atoi(strtok(NULL," "));
+    //         eliminarSitio( lugares,latelim,longelim);
+    //
+    //     }
+    //     if(strcmp(token,"ayuda")==0){
+    //         menuAyuda(strtok(NULL," "));
+    //     }
+    //     //else
+    //
+    //     //{
+    //       //  cout<<(char)173<<"Comando incorrecto!."<<endl;
+    //     //}
+    //
+    //     // system("PAUSE");
+    //     // system("cls");
+    //     //cout<<imprimirMenu()<<"\nComando:  ";
+    //
+    //     cin.getline(opcion,100);
+    //
+    // }
+    //
+    list< lugar* > lugares;
+    string opcion,comando;
+    getline( cin , opcion );
+    while( opcion != "exit" || opcion != "fin" )
     {
-        token= strtok(opcion," ");
-        cout<<token;
-        if(strcmp(token,"cargar")==0)
-        {
-            token=strtok(NULL," ");
+      stringstream ss( opcion );
 
-            cout<<cargarArchivo(lugares,token);
-            //imprimirLista(lugares);
+      ss >> comando;
+      if( comando == "cargar" )
+      {
+        string file;
+        ss >> file;
+        cout << cargarArchivo( lugares , file );
+      }
+      else if( comando == "cantSitios" )
+      {
+        string tipo;
+        ss >> tipo;
+        if( tipo == "" )
+          cout << "Cantidad Sitios: " << cantidadTotal(lugares) << endl;
+        else
+          cantidadSitios( lugares , tipo );
+      }
+      else if( comando == "obtenerSitioxy" )
+      {
+        double x,y;
+        ss >> x >> y;
+        obtenerSitio( lugares , x , y );
+      }
 
-        }
-        if(strcmp(token,"cantSitios")==0)
-        {
-            token=strtok(NULL," ");
-            if(strcmp(token,"T")==0||strcmp(token,"t")==0)
-            {
-                cout<<"Cantidad Sitios: "<<cantidadTotal(lugares)<<endl;
-            }
-            else
-            {
-                cantidadSitios(lugares,token);
-            }
-
-
-        }
-        if(strcmp(token,"obtenerSitioxy")==0)
-        {
-            double x,y;
-            token=strtok(NULL," ");
-            x=atof(token);
-            token=strtok(NULL," ");
-            y=atof(token);
-            //cout<<x<<" "<<y;
-            obtenerSitio(lugares, x, y);
-
-        }
-        if(strcmp(token,"crearStitio")==0)
-        {
-            string nombretemp (strtok(NULL, " "));
-            int tipotemp= atoi(strtok(NULL," "));
-            double lattemp = atof(strtok(NULL," ")) ;
-            double lontemp= atof(strtok(NULL," ")) ;
-            crearSitio(lugares,nombretemp,tipotemp,lattemp,lontemp);
-
-        }
-        if(strcmp(token,"modificarSitioxy")==0)
-        {
-            double lon = atof(strtok(NULL," "));
-            double lat = atof(strtok(NULL," "));
-            string nuevonombre (strtok(NULL," "));
-            int nuevotipo = atoi(strtok(NULL," "));
-            double nuevalat = atof(strtok(NULL," "));
-            double nuevalon = atof(strtok(NULL," "));
-            modificarSitio(lugares,nuevonombre,nuevotipo,lat,lon,nuevalat,nuevalon);
-
-        }
-       if(strcmp(token,"eliminarSitioxy")==0)
-        {
-            int latelim = atoi(strtok(NULL," "));
-            int longelim = atoi(strtok(NULL," "));
-            eliminarSitio( lugares,latelim,longelim);
-
-        }
-        if(strcmp(token,"ayuda")==0){
-            menuAyuda(strtok(NULL," "));
-        }
-        //else
-
-        //{
-          //  cout<<(char)173<<"Comando incorrecto!."<<endl;
-        //}
-
-        system("PAUSE");
-        system("cls");
-        //cout<<imprimirMenu()<<"\nComando:  ";
-
-        cin.getline(opcion,100);
-
+      else if( comando == "crearSitio" )
+      {
+        string nombre;
+        int tipo;
+        double lat,lon;
+        ss >> nombre >> tipo >> lat >> lon;
+        crearSitio( lugares , nombre , tipo , lat , lon );
+      }
+      else if( comando == "modificarSitioxy" )
+      {
+        double lon,lat,newlon,newlat;
+        string nombre;
+        int tipo;
+        ss >> lon >> lat >> nombre >> tipo >> newlat >> newlon;
+      }
+      else if( comando == "eliminarSitioxy" )
+      {
+        int lat , lon ;
+        ss >> lat >> lon ;
+        eliminarSitio( lugares , lat , lon );
+      }
+      else if( comando == "ayuda" )
+      {
+        string com;
+        ss >> com;
+        menuAyuda( com );
+      }
+      getline( cin , opcion );
     }
-
     cout<<imprimirGracias();
 
 
     return (0);
 }
 
-void menuAyuda(char* com){
+
+void menuAyuda( string com ){
     int c=0;
-    if(strcmp(com,"<cargar>")==0){
+    if(com == "cargar" )
        c=1;
-    }
-    if(strcmp(com,"<cantSitios>")==0){
+    else if(com == "cantSitios" )
        c=2;
-    }
-    if(strcmp(com,"<obtenerSitioxy>")==0){
+    else if(com == "obtenerSitioxy" )
        c=3;
-    }
-    if(strcmp(com,"<crearStitio>")==0){
+    else if(com == "crearStitio" )
        c=4;
-    }
-    if(strcmp(com,"<modificarSitioxy>")==0){
+    else if(com == "modificarSitioxy" )
        c=5;
-    }
-    if(strcmp(com,"<eliminarSitioxy>")==0){
+    else if(com == "eliminarSitioxy" )
        c=6;
-    }
-    if(strcmp(com,"<fin>")==0){
+    else if(com == "fin" )
        c=7;
-    }
 
     switch(c){
     case 1:
