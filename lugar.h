@@ -17,11 +17,11 @@ private:
 
 public:
   lugar(std::string nombre, int tipo, double lat, double lon);
-  // ~lugar();
+  ~lugar();
   std::string getNombre();
   int getTipo();
   double toRadian(double grados);
-  double calcularDistanciaKm(double latm,double lonm);
+  double calcularDistanciaM(double latm,double lonm);
 
   void setNombre(std::string const aux);
   void setTipo(int const aux);
@@ -33,5 +33,5 @@ public:
   double getLon();
 };
 
-#include "lugar.hxx"
 #endif
+#include "lugar.hxx"

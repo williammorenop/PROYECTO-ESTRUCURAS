@@ -31,8 +31,9 @@ int main()
   double x , y , xx , yy ;
   while( scanf("%lf %lf %lf %lf",&x,&y,&xx,&yy )!=EOF )
   {
-    lugar nn("n",1,xx,yy);
-    cout << nn.calcularDistanciaKm( x , y ) << endl;
+    lugar *nn =new lugar ("n",1,xx,yy);
+
+    printf("%lf \n", nn->calcularDistanciaM( x , y )  );
   }
     //
     // char* opcion= new char [100];
@@ -346,7 +347,7 @@ void obtenerSitio(list<lugar *> lugars,double x,double y)
         {
             if(it==lugars.begin())
             {
-                distancia=(*it)->calcularDistanciaKm(x,y);
+                distancia=(*it)->calcularDistanciaM(x,y);
                 nombre=(*it)->getNombre();
                 tipo=(*it)->getTipo();
                 lat=(*it)->getLat();
@@ -354,9 +355,9 @@ void obtenerSitio(list<lugar *> lugars,double x,double y)
             }
             else
             {
-                if((*it)->calcularDistanciaKm(x,y)<distancia)
+                if((*it)->calcularDistanciaM(x,y)<distancia)
                 {
-                    distancia=(*it)->calcularDistanciaKm(x,y);
+                    distancia=(*it)->calcularDistanciaM(x,y);
                     nombre=(*it)->getNombre();
                     tipo=(*it)->getTipo();
                     lat=(*it)->getLat();
@@ -385,12 +386,12 @@ list<lugar *>::iterator obtenerSitio2(list<lugar *> &lugars,double x,double y)
     {
         if(it==lugars.begin())
         {
-            distancia=(*it)->calcularDistanciaKm(x,y);
+            distancia=(*it)->calcularDistanciaM(x,y);
             aux=it;
         }
         else
         {
-            if((*it)->calcularDistanciaKm(x,y)<distancia)
+            if((*it)->calcularDistanciaM(x,y)<distancia)
             {
                 aux=it;
             }
